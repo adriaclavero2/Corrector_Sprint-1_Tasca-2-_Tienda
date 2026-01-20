@@ -129,10 +129,11 @@ ON producto.codigo_fabricante = fabricante.codigo;
 SELECT 
     producto.nombre AS nombre,
     producto.precio AS precio,
-    fabricante.nombre AS `nombre del fabricante`
+    fabricante.nombre AS 'nombre del fabricante'
 FROM producto
-JOIN fabricante ON producto.codigo_fabricante = fabricante.codigo
-ORDER BY producto.nombre COLLATE utf8_spanish_ci ASC;
+JOIN fabricante 
+    ON producto.codigo_fabricante = fabricante.codigo
+ORDER BY producto.nombre COLLATE utf8mb4_spanish_ci ASC;
 
 -- 23. Retorna una llista amb el codi del producte, nom del producte, codi del fabricant (codigo fabricante) i nom del fabricant (nombre fabricante), de tots els productes de la base de dades.
 SELECT 
@@ -158,7 +159,7 @@ LIMIT 1;
 SELECT
 producto.nombre,
 producto.precio,
-fabricante.nombre AS 'fabricant'
+fabricante.nombre AS 'fabricante'
 FROM producto
 JOIN fabricante
 ON producto.codigo_fabricante = fabricante.codigo
@@ -187,7 +188,7 @@ WHERE fabricante.nombre = 'Crucial' AND producto.precio > 200;
 SELECT
 producto.nombre,
 producto.precio,
-fabricante.nombre AS 'fabricant'
+fabricante.nombre AS 'fabricante'
 FROM producto
 JOIN fabricante
 ON producto.codigo_fabricante = fabricante.codigo
@@ -199,14 +200,13 @@ OR fabricante.nombre = 'Seagate';
 SELECT
 producto.nombre,
 producto.precio,
-fabricante.nombre AS 'fabricant'
+fabricante.nombre AS 'fabricante'
 FROM producto
 JOIN fabricante
 ON producto.codigo_fabricante = fabricante.codigo
 WHERE fabricante.nombre IN ('Asus', 'Hewlett-Packard', 'Seagate');
 
 -- 30. Retorna un llistat amb el nom, el preu i el nom del fabricant (fabricante) dels productes, on el nom del fabricant acabi en la lletra 'e'.
-SELECT
 SELECT
     producto.nombre,
     producto.precio,
@@ -220,7 +220,7 @@ WHERE fabricante.nombre LIKE '%e';
 SELECT
     producto.nombre,
     producto.precio,
-    fabricante.nombre
+    fabricante.nombre AS 'fabricante'
 FROM producto
 JOIN fabricante
     ON producto.codigo_fabricante = fabricante.codigo
@@ -230,7 +230,7 @@ WHERE fabricante.nombre LIKE '%w%';
 SELECT
     producto.nombre,
     producto.precio,
-    fabricante.nombre
+    fabricante.nombre AS 'fabricante'
 FROM producto
 JOIN fabricante
     ON producto.codigo_fabricante = fabricante.codigo
@@ -253,15 +253,17 @@ SELECT
     producto.nombre AS 'producto'
 FROM producto
 JOIN fabricante
-    ON producto.codigo_fabricante = fabricante.codigo;
+    ON producto.codigo_fabricante = fabricante.codigo
+ORDER BY fabricante.nombre ASC,
+         producto.nombre ASC;
 
 -- 35. Retorna un llistat on només apareguin els noms dels fabricants (fabricante) que no tenen cap producte associat.
 SELECT
     fabricante.nombre AS 'fabricante'
 FROM fabricante
-JOIN producto
+LEFT JOIN producto
     ON fabricante.codigo = producto.codigo_fabricante
-GROUP BY fabricante.codigo, fabricante.nombre;
+WHERE producto.codigo IS NULL;
 
 -- 36. Retorna tots els productes del fabricant Lenovo. (Sense utilitzar INNER JOIN).
 SELECT
